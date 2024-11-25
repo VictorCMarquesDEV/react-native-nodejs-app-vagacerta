@@ -1,7 +1,10 @@
-export type TaskProps = {
+export type JobProps = {
     id: number;
     title: String;
+    description: String;
     date: String;
+    phone: String;
+    status: String;
     company: String;
 };
 
@@ -10,5 +13,5 @@ export type RootStackParamList = {
     FormScreen: undefined;
     Home: undefined;
     Profile: undefined;
-    Details: {id: number};
+    Details: { id: number };
 };

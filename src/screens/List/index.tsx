@@ -1,91 +1,71 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, FlatList, View, Text } from 'react-native';
-import { Wrapper,Container, ListContainer, TextVagas } from './styles';
+import { Wrapper, Container, ListContainer, TextVagas } from './styles';
 import BGTop from '../../assets/BGTop.png';
 import Logo from '../../components/Logo';
 import VagaCard from '../../components/VagaCard';
+import api from '../../services/api';
 
 
 export default function List() {
 
+    const [vagas, setVagas] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const DATA = [
-        {
-          "id": 1,
-          "titulo": "Desenvolvedor Front-end",
-          "data_cadastro": "2024-06-21",
-          "empresa": "Tech Solutions"
-        },
-        {
-          "id": 2,
-          "titulo": "Analista de Dados",
-          "data_cadastro": "2024-06-18",
-          "empresa": "Data Insights"
-        },
-        {
-          "id": 3,
-          "titulo": "Gerente de Projetos",
-          "data_cadastro": "2024-06-15",
-          "empresa": "Project Masters"
-        },
-        {
-          "id": 4,
-          "titulo": "Gerente de Projetos",
-          "data_cadastro": "2024-06-15",
-          "empresa": "Project Masters"
-        },
-        {
-          "id": 5,
-          "titulo": "Gerente de Projetos",
-          "data_cadastro": "2024-06-15",
-          "empresa": "Project Masters"
-        },
-        {
-          "id": 6,
-          "titulo": "Gerente de Projetos",
-          "data_cadastro": "2024-06-15",
-          "empresa": "Project Masters"
-        },
-        {
-          "id": 7,
-          "titulo": "Gerente de Projetos",
-          "data_cadastro": "2024-06-15",
-          "empresa": "Project Masters"
-        }
-      ]
+    useEffect(() => {
+        const fetchVagas = async () => {
+            try {
+                const response = await api.get('/vagas');
+                const jobs = response.data;
+                setVagas(jobs);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchVagas();
+    }, []);
 
     return (
         <Wrapper>
-            <Image source={BGTop} style={{maxHeight: 86}}/>
+            <Image source={BGTop} style={{ maxHeight: 86 }} />
 
             <Container>
 
                 <Logo />
-                <TextVagas>{DATA.length} vagas encontradas!</TextVagas>
+                <TextVagas>{vagas.length} vagas encontradas!</TextVagas>
                 <ListContainer>
-                    <FlatList
-                        data={DATA}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({item}) => 
-                            <VagaCard
-                                id={item.id}
-                                title={item.titulo} 
-                                dataCreated={item.data_cadastro}
-                                company={item.empresa}
-                            />
-                        }
-                        showsVerticalScrollIndicator={true}
-                        ListEmptyComponent={() => (
-                            <View>
-                                <Text>
-                                    Você ainda não tem tarefas cadastradas
-                                </Text>
-                                <Text>
-                                    Crie tarefas e organize seus itens a fazer.
-                                </Text>
-                            </View>
-                        )}
-                    />
+                    {isLoading ? (
+                        <Text>Carregando...</Text>
+                    ) : (
+                        <FlatList
+                            data={vagas}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={
+                                ({ item }) =>
+                                    <VagaCard
+                                        id={item.id
+                                        }
+                                        title={item.titulo}
+                                        dataCreated={item.dataCadastro}
+                                        company={item.empresa}
+                                    />
+                            }
+                            showsVerticalScrollIndicator={false}
+                            ListEmptyComponent={() => (
+                                <View>
+                                    <Text>
+                                        Você ainda não tem vagas cadastradas!
+                                    </Text>
+                                    <Text>
+                                        Crie vagas!
+                                    </Text>
+                                </View>
+                            )}
+                        />
+                    )}
+
                 </ListContainer>
 
             </Container>
