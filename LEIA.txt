@@ -1,0 +1,9 @@
+O que deve estar no projeto e quanto vale cada parte:
+
+[FEITO]. 30pts - Conectar com a API de vagas feita com base no conteúdo que o professor Jeferson passou. 
+[FEITO COM RESSALVAS: O login está feito, mas precisa do Contexto segundo o professor para alguma coisa para armazenar que o login foi feito, algo assim...]. 10pts - Permitir o acesso somente após realizar o login.
+. 10pts - Criar um contexto para o usuário autenticado.
+[FEITO]. 10pts - Manter localmente os dados do usuário autenticado.
+[FEITO]. 10pts - Exibir botão de contato apenas quando a vaga estiver aberta e o botão deve redirecionar para o whatsapp;
+[FEITO]. 20pts - Desenvolver a edição de usuário.
+. 10pts - Implementar função de logout.
